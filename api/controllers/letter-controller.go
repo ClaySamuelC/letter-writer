@@ -29,15 +29,16 @@ func (c *LetterController) CreateLetter(ctx *gin.Context) {
 		})
 		return
 	}
+
+	letter.Date = time.Now().Format("Jan-01-2000")
+	letter.Address = "123 Roosavelt Str" // Placeholder for when the user passes their address data
+
 	if err := c.db.AddEntry(letter.ToSlice()); err != nil {
 		ctx.JSON(500, gin.H{
 			"error": "error writing letter to db",
 		})
 		return
 	}
-
-	letter.Date = time.Now().Format("Jan-01-2000")
-	letter.Address = "123 Roosavelt Str" // Placeholder for when the user passes their address data
 
 	ctx.JSON(201, gin.H{
 		"letter": letter,
