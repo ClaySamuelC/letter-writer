@@ -1,6 +1,6 @@
 import React from "react";
 import { useInput } from './hooks/input-hook';
-import './LetterWriter.css';
+import '../styles/LetterWriter.css';
 
 export function LetterWriter(props) {
   const { value:author, bind:bindAuthor, reset:resetAuthor } = useInput('');
