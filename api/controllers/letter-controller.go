@@ -1,21 +1,24 @@
 package controllers
 
 import (
-	"encoding/csv"
+	"log"
 
 	"github.com/ClaySamuelC/letter-writer/api/models"
+	"github.com/ClaySamuelC/letter-writer/db"
 	"github.com/gin-gonic/gin"
 )
 
 type LetterController struct {
-	db *csv.Writer
+	db *db.Connection
 }
 
-func (c *LetterController) Init(db *csv.Writer) {
+func (c *LetterController) Init(db *db.Connection) {
 	c.db = db
 }
 
 func (c *LetterController) CreateLetter(ctx *gin.Context) {
+	log.Printf("Attempting to write a letter")
+
 	var letter models.Letter
 	ctx.BindJSON(&letter)
 
@@ -25,7 +28,7 @@ func (c *LetterController) CreateLetter(ctx *gin.Context) {
 		})
 		return
 	}
-	if err := c.db.Write(letter.ToSlice()); err != nil {
+	if err := c.db.AddEntry(letter.ToSlice()); err != nil {
 		ctx.JSON(500, gin.H{
 			"error": "error writing letter to db",
 		})
