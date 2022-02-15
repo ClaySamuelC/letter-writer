@@ -2,7 +2,6 @@ package db
 
 import (
 	"encoding/csv"
-	"log"
 	"os"
 )
 
@@ -10,13 +9,12 @@ type Connection struct {
 	db *csv.Writer
 }
 
-func (c *Connection) Init() {
+func (c *Connection) Init() error {
 	recordFile, err := os.Create("./letters.csv")
-	if err != nil {
-		log.Printf("Error creating db file")
-	}
 
 	c.db = csv.NewWriter(recordFile)
+
+	return err
 }
 
 func (c *Connection) WriteHeader(headerModel []string) error {
