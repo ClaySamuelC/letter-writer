@@ -10,11 +10,29 @@ export function LetterWriter(props) {
   
   const handleSubmit = (evt) => {
       evt.preventDefault();
-      alert(`Submitting Message`);
+      try {
+        let res = await fetch("http://localhost:8080/api/letters", {
+          method: "POST",
+          body: JSON.stringify({
+            FromName: author,
+            ToName: recipient,
+            Heading: heading,
+            Body: message
+          })
+        })
+        let resJson = await res.json();
+        if (res.status !== 201) {
+          console.error("Error sending letter")
+        }
+      } catch (err) {
+        console.log(err);
+      }
+
       resetRecipient();
       resetHeading();
       resetMessage();
-  }
+  };
+  
   return (
     <form onSubmit={handleSubmit} className="LetterWriter">
       <label>
