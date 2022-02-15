@@ -4,10 +4,16 @@ import (
 	"log"
 	"os"
 
+	"github.com/ClaySamuelC/letter-writer/api/controllers"
+	"github.com/ClaySamuelC/letter-writer/db"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	db := db.NewConnection()
+	letterController := controllers.LetterController{}
+	letterController.Init(db)
+
 	router := gin.Default()
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
@@ -22,12 +28,7 @@ func main() {
 		})
 	})
 
-	router.POST("/api/Letters", func(c *gin.Context) {
-		log.Printf("Writing Letter")
-		c.JSON(200, gin.H{
-			"message": "Letter written",
-		})
-	})
+	router.POST("/api/Letters", letterController.CreateLetter)
 
 	port := os.Getenv("PORT")
 	if port == "" {
