@@ -8,7 +8,7 @@ export function LetterWriter(props) {
   const { value:heading, bind:bindHeading, reset:resetHeading } = useInput('');
   const { value:message, bind:bindMessage, reset:resetMessage } = useInput('');
   
-  const handleSubmit = (evt) => {
+  const handleSubmit = async(evt) => {
       evt.preventDefault();
       try {
         let res = await fetch("http://localhost:8080/api/letters", {
@@ -32,7 +32,7 @@ export function LetterWriter(props) {
       resetHeading();
       resetMessage();
   };
-  
+
   return (
     <form onSubmit={handleSubmit} className="LetterWriter">
       <label>
