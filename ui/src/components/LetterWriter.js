@@ -1,9 +1,9 @@
 import React from "react";
-import { useInput } from './hooks/input-hook';
+import { useInput } from './hooks/useInput';
 import '../styles/LetterWriter.css';
 
 export function LetterWriter(props) {
-  const { value:author, bind:bindAuthor, reset:resetAuthor } = useInput('');
+  const { value:author, bind:bindAuthor } = useInput('');
   const { value:recipient, bind:bindRecipient, reset:resetRecipient } = useInput('');
   const { value:heading, bind:bindHeading, reset:resetHeading } = useInput('');
   const { value:message, bind:bindMessage, reset:resetMessage } = useInput('');
@@ -20,7 +20,7 @@ export function LetterWriter(props) {
             Body: message
           })
         })
-        let resJson = await res.json();
+        // let resJson = await res.json();
         if (res.status !== 201) {
           console.error("Error sending letter")
         }
