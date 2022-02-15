@@ -6,21 +6,30 @@ import (
 )
 
 type Connection struct {
-	db *csv.Writer
+	f *os.File
 }
 
 func (c *Connection) Init() error {
-	recordFile, err := os.Create("./letters.csv")
-
-	c.db = csv.NewWriter(recordFile)
+	file, err := os.Create("./db/letters.csv")
+	c.f = file
 
 	return err
 }
 
-func (c *Connection) WriteHeader(headerModel []string) error {
-	return c.db.Write(headerModel)
+func (c *Connection) WriteHeader(header []string) error {
+	writer := csv.NewWriter(c.f)
+	defer writer.Flush()
+
+	return writer.Write(header)
 }
 
 func (c *Connection) AddEntry(entry []string) error {
-	return c.db.Write(entry)
+	writer := csv.NewWriter(c.f)
+	defer writer.Flush()
+
+	return writer.Write(entry)
+}
+
+func (c *Connection) CloseConnection() error {
+	return c.f.Close()
 }
