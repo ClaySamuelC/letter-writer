@@ -10,9 +10,19 @@ import (
 )
 
 func main() {
-	db := db.NewConnection()
+	db := db.Connection{}
+	err := db.Init()
+	if err != nil {
+		log.Printf("Error creating db")
+	}
+
+	err = db.WriteHeader([]string{"FromName", "ToName", "Heading", "Date", "Address", "Body"})
+	if err != nil {
+		log.Printf("Error initializing db")
+	}
+
 	letterController := controllers.LetterController{}
-	letterController.Init(db)
+	letterController.Init(&db)
 
 	router := gin.Default()
 	router.GET("/ping", func(c *gin.Context) {
@@ -28,7 +38,7 @@ func main() {
 		})
 	})
 
-	router.POST("/api/Letters", letterController.CreateLetter)
+	router.POST("/api/letters", letterController.CreateLetter)
 
 	port := os.Getenv("PORT")
 	if port == "" {
