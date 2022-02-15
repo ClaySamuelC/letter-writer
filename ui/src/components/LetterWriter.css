@@ -1,3 +1,4 @@
 .LetterWriter {
-  background: linear-gradient(91.4deg, #97cfeb 0%, #21a5a5 100%); 
+  background: linear-gradient(91.4deg, #97cfeb 0%, #21a5a5 100%);
+  display: grid;
 }
