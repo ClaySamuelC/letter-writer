@@ -6,11 +6,23 @@ import (
 	"os"
 )
 
-func NewConnection() *csv.Writer {
+type Connection struct {
+	db *csv.Writer
+}
+
+func (c *Connection) Init() {
 	recordFile, err := os.Create("./letters.csv")
 	if err != nil {
-		log.Printf("Error opening db")
+		log.Printf("Error creating db file")
 	}
 
-	return csv.NewWriter(recordFile)
+	c.db = csv.NewWriter(recordFile)
+}
+
+func (c *Connection) WriteHeader(headerModel []string) error {
+	return c.db.Write(headerModel)
+}
+
+func (c *Connection) AddEntry(entry []string) error {
+	return c.db.Write(entry)
 }
