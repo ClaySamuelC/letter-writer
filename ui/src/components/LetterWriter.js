@@ -1,6 +1,6 @@
 import React from "react";
 import { useInput } from './hooks/input-hook';
-// import './LetterWriter.css';
+import './LetterWriter.css';
 
 export function LetterWriter(props) {
   const { value:firstName, bind:bindFirstName, reset:resetFirstName } = useInput('');
@@ -13,7 +13,7 @@ export function LetterWriter(props) {
       resetLastName();
   }
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="LetterWriter">
       <label>
         First Name:
         <input type="text" {...bindFirstName} />
