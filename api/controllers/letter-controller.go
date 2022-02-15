@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"log"
+	"time"
 
 	"github.com/ClaySamuelC/letter-writer/api/models"
 	"github.com/ClaySamuelC/letter-writer/db"
@@ -34,6 +35,9 @@ func (c *LetterController) CreateLetter(ctx *gin.Context) {
 		})
 		return
 	}
+
+	letter.Date = time.Now().Format("Jan-01-2000")
+	letter.Address = "123 Roosavelt Str" // Placeholder for when the user passes their address data
 
 	ctx.JSON(201, gin.H{
 		"letter": letter,
